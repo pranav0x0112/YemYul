@@ -1,27 +1,27 @@
 from sklearn import datasets
-import pandas as pd 
+import pandas as pd
+print('THIS IS THE PROGRAM TO ACCESS DIABETES DATASET')
+dbt=datasets.load_diabetes()
+print(" To print the description of Digits Dataset")
 
-print('THIS IS THE PROGRAM TO ACCESS IRIS DATASET')
-iris = datasets.load_iris()
-print("To print the description of Iris Dataset")
-print(iris.DESCR)
+print(dbt.DESCR)
 print('\n\n\n\n')
-
-# df will fold dataset as a table 
-
-df = pd.DataFrame(iris.data, columns=iris.feature_names)
-df['target'] = pd.Series(iris.target)
-
-df['target_names'] = df['target'].apply(lambda y:iris.target_names[y])
-
-print('To display Last 5 samples')
-
+# df will fold dataset as a table
+df=pd.DataFrame(
+dbt.data,
+columns=dbt.feature_names
+)
+#labels are assigned to df[target] table or array
+df['target']=pd.Series(
+dbt.target
+)
+print('To display First 5 samples')
 # df.head(5) will return the first five samples in the dataset
-print(df.tail(5))
+print(df.head(5))
 print('To display randomply 5 samples')
 #df.sample(5) will return randomly five samples from the dataset
 print(df.sample(5))
-
+# Train Test Split Ratio
 from sklearn.model_selection import train_test_split
 df_train,df_test=train_test_split(df,test_size=0.3) # For 70: 30 Split
 print('The total number of samples in the dataset = ',df.shape[0])
@@ -34,15 +34,7 @@ print(df_test.head(5))
 
 # Built-in pandas DataFrame functions for exploration
 print("\n--- DataFrame describe() ---\n", df.describe())
-print("\n--- DataFrame corr() ---\n", df.select_dtypes(include='number').corr())
+print("\n--- DataFrame corr() ---\n", df.corr())
 print("\n--- Missing values per column ---\n", df.isnull().sum())
 print("\n--- Number of duplicate rows ---\n", df.duplicated().sum())
 print("\n--- Value counts for target column ---\n", df['target'].value_counts())
-
-import seaborn as sns
-import matplotlib.pyplot as plt
-sns.boxplot(x='target_names', y='sepal length (cm)', data=df)
-plt.show()
-sns.pairplot(df, hue='target_names')
-plt.show()
-sns.pairplot(df, hue='target_names')
